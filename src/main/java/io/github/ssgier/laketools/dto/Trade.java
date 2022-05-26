@@ -5,9 +5,7 @@ import org.immutables.value.Value;
 import java.math.BigDecimal;
 
 @Value.Immutable
-public interface Trade {
-    String ticker();
-    long exchangeTsNanos();
+public interface Trade extends MarketDataEvent {
     BigDecimal price();
     long size();
 }
