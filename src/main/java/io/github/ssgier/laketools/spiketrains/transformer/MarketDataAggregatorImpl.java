@@ -6,38 +6,41 @@ import io.github.ssgier.laketools.dto.Trade;
 import io.github.ssgier.laketools.loader.util.IncreasingFilter;
 import io.github.ssgier.laketools.spiketrains.transformer.reader.Reader;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AggregatorImpl implements Aggregator {
+public class MarketDataAggregatorImpl implements MarketDataAggregator {
 
     private final Reader reader;
 
-    public AggregatorImpl(Reader reader) {
+    public MarketDataAggregatorImpl(Reader reader) {
         this.reader = reader;
     }
 
     @Override
-    public List<MarketDataEvent> aggregate(TransformerSpecification transformerSpecification) {
+    public Stream<MarketDataEvent> aggregate(String ticker, List<LocalDate> valueDates) {
 
-        return transformerSpecification.getInputItems().stream()
-                .flatMap(inputItem -> {
+        return valueDates.stream().flatMap(valueDate -> {
+            var quotesStream = reader.readQuotes(ticker, valueDate);
+            var tradesStream = reader.readTrades(ticker, valueDate);
 
-                    var quotesStream = reader.readQuotes(inputItem.getTicker(), inputItem.getValueDate());
-                    var tradesStream = reader.readTrades(inputItem.getTicker(), inputItem.getValueDate());
+            return Stream.concat(quotesStream.filter(makeQuoteFilter()), tradesStream.filter(makeTradeFilter()));
+        }).sorted(Comparator.comparing(MarketDataEvent::exchangeTimestampNanos));
+    }
 
-                    return Stream.concat(quotesStream.filter(makeQuoteFilter()), tradesStream.filter(makeTradeFilter()));
-                }).sorted(Comparator.comparing(MarketDataEvent::exchangeTimestampNanos)).collect(Collectors.toList());
+    @Override
+    public Stream<Quote> aggregateQuotes(String ticker, List<LocalDate> valueDatesSorted) {
+        return valueDatesSorted.stream().flatMap(valueDate -> reader.readQuotes(ticker, valueDate)).filter(makeQuoteFilter());
     }
 
     private static Predicate<Quote> makeQuoteFilter() {
         Predicate<Quote> noCrossedBookFilter = quote -> quote.bidSize() == 0 || quote.askSize() == 0 ||
                 quote.askPrice().compareTo(quote.bidPrice()) > 0;
 
-        return AggregatorImpl.<Quote>makeMarketDataFilter().and(noCrossedBookFilter);
+        return MarketDataAggregatorImpl.<Quote>makeMarketDataFilter().and(noCrossedBookFilter);
     }
 
     private static Predicate<Trade> makeTradeFilter() {

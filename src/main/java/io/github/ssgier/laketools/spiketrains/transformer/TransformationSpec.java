@@ -3,7 +3,7 @@ package io.github.ssgier.laketools.spiketrains.transformer;
 import java.time.LocalDate;
 import java.util.List;
 
-public class TransformerSpecification {
+public class TransformationSpec {
 
     public static class InputItem {
         private final String ticker;
@@ -26,7 +26,7 @@ public class TransformerSpecification {
     private final List<InputItem> inputItems;
     private final String targetTicker;
 
-    public TransformerSpecification(List<InputItem> inputItems, String targetTicker) {
+    public TransformationSpec(List<InputItem> inputItems, String targetTicker) {
         this.inputItems = inputItems;
         this.targetTicker = targetTicker;
     }
