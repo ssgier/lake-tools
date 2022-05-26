@@ -1,7 +1,6 @@
 package io.github.ssgier.laketools.loader.polygon;
 
 import io.github.ssgier.laketools.dto.MarketDataEvent;
-import io.github.ssgier.laketools.loader.util.IncreasingFilter;
 import io.polygon.kotlin.sdk.rest.PolygonRestClient;
 
 import java.time.LocalDate;
@@ -38,17 +37,13 @@ public abstract class AbstractPolygonLoader<T extends MarketDataEvent> {
     public Stream<T> loadEvents(String ticker, LocalDate date) {
 
         var dateString = date.toString();
-        var sequenceNumberFilter = new IncreasingFilter<>(T::sequenceNumber);
-        var exchangeTimestampFilter = new IncreasingFilter<>(T::exchangeTimestampNanos);
 
         Stream<List<T>> batchStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
                         new AbstractPolygonLoader<T>.BatchIterator(ticker, dateString), Spliterator.ORDERED),
                 false);
 
         return batchStream
-                .flatMap(List::stream)
-                .filter(sequenceNumberFilter)
-                .filter(exchangeTimestampFilter);
+                .flatMap(List::stream);
     }
 
     private final class BatchIterator implements Iterator<List<T>> {

@@ -16,16 +16,9 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 
-public class PersistorImpl implements Persistor {
+import static io.github.ssgier.laketools.config.Config.*;
 
-    private final static String[] QUOTES_HEADER = {
-            "exchangeTimestampNanos",
-            "bidPrice",
-            "bidSize",
-            "askPrice",
-            "askSize"
-    };
-    private final static String[] TRADES_HEADER = {"exchangeTimestampNanos", "price", "size"};
+public class PersistorImpl implements Persistor {
 
     private final String basePath;
 
@@ -39,9 +32,11 @@ public class PersistorImpl implements Persistor {
                 ticker,
                 valueDate,
                 quoteStream,
-                "quotes_",
+                QUOTES_FILE_PREFIX,
                 QUOTES_HEADER,
                 quote -> new Object[]{
+                        quote.sequenceNumber(),
+                        quote.vendorTimestampNanos(),
                         quote.exchangeTimestampNanos(),
                         quote.bidPrice(),
                         quote.bidSize(),
@@ -59,7 +54,7 @@ public class PersistorImpl implements Persistor {
             Function<T, Object[]> recordItemsExtractor
             ) {
         try {
-            var directoryPath = Path.of(basePath, valueDate.toString());
+            var directoryPath = Path.of(basePath, "market_data", valueDate.toString());
             var csvFileName = filePrefix + ticker + ".csv.gz";
             Path filePath = Path.of(directoryPath.toString(), csvFileName);
             Files.createDirectories(directoryPath);
@@ -91,9 +86,14 @@ public class PersistorImpl implements Persistor {
                 ticker,
                 valueDate,
                 tradeStream,
-                "trades_",
+                TRADES_FILE_PREFIX,
                 TRADES_HEADER,
-                trade -> new Object[]{trade.exchangeTimestampNanos(), trade.price(), trade.size()}
+                trade -> new Object[]{
+                        trade.sequenceNumber(),
+                        trade.vendorTimestampNanos(),
+                        trade.exchangeTimestampNanos(),
+                        trade.price(),
+                        trade.size()}
         );
     }
 }
