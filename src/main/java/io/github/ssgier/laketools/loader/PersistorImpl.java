@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import java.util.zip.GZIPOutputStream;
 
 public class PersistorImpl implements Persistor {
 
@@ -59,10 +60,13 @@ public class PersistorImpl implements Persistor {
             ) {
         try {
             var directoryPath = Path.of(basePath, valueDate.toString());
-            Path filePath = Path.of(directoryPath.toString(), filePrefix + ticker + ".csv");
+            var csvFileName = filePrefix + ticker + ".csv.gz";
+            Path filePath = Path.of(directoryPath.toString(), csvFileName);
             Files.createDirectories(directoryPath);
 
-            var sink = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(filePath.toFile())));
+            var gzipOutputStream = new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(filePath.toFile())));
+
+            var sink = new OutputStreamWriter(gzipOutputStream);
             var csvPrinter = CSVFormat.Builder.create().setHeader(csvHeader)
                     .build().print(sink);
 

@@ -12,20 +12,17 @@ public class PolygonDownloadSpecsSupplier implements Supplier<List<DownloadJobSp
 
         var valueDate = LocalDate.of(2020, 3, 26);
 
-        //        var tickers = List.of(
-//                "AAPL",
-//                "NVDA",
-//                "TSLA",
-//                "GOOG",
-//                "MSFT",
-//                "ACN",
-//                "AAP",
-//                "ABT",
-//                "ADM",
-//                "PYPL"
-//        );
-
-        var tickers = List.of(
+                var tickers = List.of(
+                "AAPL",
+                "NVDA",
+                "TSLA",
+                "GOOG",
+                "MSFT",
+                "ACN",
+                "AAP",
+                "ABT",
+                "ADM",
+                "PYPL",
                 "CMI"
         );
 
