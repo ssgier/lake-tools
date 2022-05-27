@@ -1,5 +1,7 @@
 package io.github.ssgier.laketools.loader;
 
+import io.github.ssgier.laketools.persistor.Persistor;
+
 import java.time.LocalDate;
 
 public class DownloadJob implements Runnable {

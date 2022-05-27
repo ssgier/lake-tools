@@ -1,6 +1,6 @@
 package io.github.ssgier.laketools.spiketrains.transformer;
 
-import io.github.ssgier.laketools.dto.ChannelSpikeEvent;
+import io.github.ssgier.laketools.spiketrains.transformer.dto.ChannelSpikeEvent;
 import io.github.ssgier.laketools.spiketrains.transformer.event.QuoteEventTransformer;
 import io.github.ssgier.laketools.spiketrains.transformer.event.TimeMapper;
 import io.github.ssgier.laketools.spiketrains.transformer.event.TradeEventTransformer;
@@ -62,6 +62,6 @@ public class SpikeTrainTransformerImpl implements SpikeTrainTransformer {
             return marketDataAggregator.aggregate(ticker, valueDates)
                     .flatMap(marketDataEvent ->
                             eventTransformers.stream().flatMap(eventTransformer -> eventTransformer.onMarketDataEvent(marketDataEvent).stream()));
-        }).sorted(Comparator.comparing(ChannelSpikeEvent::time)).collect(Collectors.toList());
+        }).filter(channelSpikeEvent -> channelSpikeEvent.time() >= 0).sorted(Comparator.comparing(ChannelSpikeEvent::time)).collect(Collectors.toList());
     }
 }

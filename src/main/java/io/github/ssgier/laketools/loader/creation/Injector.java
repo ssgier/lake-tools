@@ -1,5 +1,6 @@
 package io.github.ssgier.laketools.loader.creation;
 
+import io.github.ssgier.laketools.persistor.PersistorImpl;
 import io.github.ssgier.laketools.loader.*;
 import io.github.ssgier.laketools.loader.polygon.PolygonApiKeyProvider;
 import io.github.ssgier.laketools.loader.polygon.PolygonQuotesLoader;

@@ -1,6 +1,6 @@
 package io.github.ssgier.laketools.spiketrains.transformer;
 
-import io.github.ssgier.laketools.dto.ChannelSpikeEvent;
+import io.github.ssgier.laketools.spiketrains.transformer.dto.ChannelSpikeEvent;
 
 import java.util.List;
 

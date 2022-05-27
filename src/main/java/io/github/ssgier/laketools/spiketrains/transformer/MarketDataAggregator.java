@@ -10,5 +10,5 @@ import java.util.stream.Stream;
 public interface MarketDataAggregator {
     Stream<MarketDataEvent> aggregate(String ticker, List<LocalDate> valueDates);
 
-    Stream<Quote> aggregateQuotes(String ticker, List<LocalDate> valueDates);
+    Stream<Quote> aggregateQuotes(String ticker, List<LocalDate> valueDatesSorted);
 }

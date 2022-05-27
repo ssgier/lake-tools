@@ -1,5 +1,7 @@
 package io.github.ssgier.laketools.loader;
 
+import io.github.ssgier.laketools.persistor.Persistor;
+
 public class DownloadJobFactoryImpl implements DownloadJobFactory {
 
     private final QuotesLoader quotesLoader;

@@ -22,4 +22,19 @@ public class Config {
     };
 
     public final static String TRADES_FILE_PREFIX = "trades_";
+
+    public final static String[] CHANNEL_SPIKES_HEADER = {
+            "time",
+            "channelId"
+    };
+
+    public final static String CHANNEL_SPIKES_FILE_NAME = "channel_spikes";
+
+    public final static String[] PRICES_HEADER = {
+            "time",
+            "bidPrice",
+            "askPrice"
+    };
+
+    public final static String PRICES_FILE_PREFIX = "prices_";
 }
