@@ -38,7 +38,9 @@ public class TransformerImpl implements Transformer {
                 .map(quote -> ImmutablePriceEvent.builder()
                         .time(timeMapper.toTime(quote.exchangeTimestampNanos()))
                         .bidPrice(quote.bidPrice())
+                        .bidSize(quote.bidSize())
                         .askPrice(quote.askPrice())
+                        .askSize(quote.askSize())
                         .build())
                 .filter(priceEvent -> priceEvent.time() >= 0)
                 .collect(Collectors.toList());

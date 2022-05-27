@@ -5,8 +5,9 @@ import org.immutables.value.Value;
 import java.math.BigDecimal;
 
 @Value.Immutable
-public interface PriceEvent {
-    double time();
+public interface PriceEvent extends TimedEvent {
     BigDecimal bidPrice();
+    long bidSize();
     BigDecimal askPrice();
+    long askSize();
 }

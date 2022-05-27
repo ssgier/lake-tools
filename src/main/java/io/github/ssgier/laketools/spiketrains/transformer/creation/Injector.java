@@ -16,6 +16,7 @@ public class Injector {
     private final Supplier<TransformationSpec> transformationSpecSupplier;
     private final Transformer transformer;
     private final Persistor persistor;
+    private final Repeater repeater;
 
     public Injector() {
         var timeMapper = new RelativeTimeMapper(startTimestampNanos, 1L);
@@ -25,6 +26,7 @@ public class Injector {
         var spikeTrainTransformer = new SpikeTrainTransformerImpl(marketDataAggregator, timeMapper);
         transformer = new TransformerImpl(marketDataAggregator, spikeTrainTransformer, timeMapper);
         persistor = new PersistorImpl(BasePathProvider.getBasePath());
+        repeater = new RepeaterImpl();
     }
 
     public Supplier<TransformationSpec> getTransformationSpecSupplier() {
@@ -37,5 +39,9 @@ public class Injector {
 
     public Persistor getPersistor() {
         return persistor;
+    }
+
+    public Repeater getRepeater() {
+        return repeater;
     }
 }

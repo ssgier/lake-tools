@@ -6,8 +6,15 @@ public class Main {
     public static void main(String[] args) {
         var injector = new Injector();
 
-        injector.getPersistor().persistTransformationResult(
-                injector.getTransformer().process(injector.getTransformationSpecSupplier().get())
-        );
+        var result = injector.getTransformer()
+                .process(injector.getTransformationSpecSupplier().get());
+
+        var repeatedResult = injector.getRepeater().repeat(
+                result,
+                30,
+                100, 200,
+                0.5, 5);
+
+        injector.getPersistor().persistTransformationResult(repeatedResult);
     }
 }

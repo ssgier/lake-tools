@@ -9,7 +9,7 @@ public class TransformationSpecSupplier implements Supplier<TransformationSpec> 
     public TransformationSpec get() {
 
         var valueDate = LocalDate.of(2020, 3, 26);
-        var ticker = "CMI";
+        var ticker = "AAPL";
 
         return new TransformationSpec(List.of(new TransformationSpec.InputItem(ticker, valueDate)), ticker);
     }

@@ -84,7 +84,9 @@ public class PersistorImpl implements Persistor {
                 priceEvent -> new Object[]{
                         priceEvent.time(),
                         priceEvent.bidPrice(),
-                        priceEvent.askPrice()},
+                        priceEvent.bidSize(),
+                        priceEvent.askPrice(),
+                        priceEvent.askSize()},
                 false
                 );
     }

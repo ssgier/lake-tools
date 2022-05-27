@@ -33,7 +33,9 @@ public class Config {
     public final static String[] PRICES_HEADER = {
             "time",
             "bidPrice",
-            "askPrice"
+            "bidSize",
+            "askPrice",
+            "askSize"
     };
 
     public final static String PRICES_FILE_PREFIX = "prices_";
