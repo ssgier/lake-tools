@@ -38,5 +38,5 @@ public class Config {
             "askSize"
     };
 
-    public final static String PRICES_FILE_PREFIX = "prices_";
+    public final static String PRICES_FILE_NAME = "prices";
 }

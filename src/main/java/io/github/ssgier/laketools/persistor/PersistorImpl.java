@@ -78,7 +78,7 @@ public class PersistorImpl implements Persistor {
 
         persistRecords(
                 directoryPath,
-                PRICES_FILE_PREFIX + transformationResult.getTransformationSpec().getTargetTicker(),
+                PRICES_FILE_NAME,
                 transformationResult.getTargetTickerPriceEvents().stream(),
                 PRICES_HEADER,
                 priceEvent -> new Object[]{
